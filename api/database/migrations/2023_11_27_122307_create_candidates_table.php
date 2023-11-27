@@ -16,8 +16,8 @@ return new class extends Migration
 
             $table->string('name');
             $table->string('lastname');
-            $table->string('email')->unique;
-            $table->string('telephone')->unique;
+            $table->string('email')->unique();
+            $table->string('telephone')->unique();
             $table->text('note');
 
             $table->softDeletes();
