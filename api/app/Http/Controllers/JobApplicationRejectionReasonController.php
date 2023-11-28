@@ -77,8 +77,8 @@ class JobApplicationRejectionReasonController extends Controller
         $jobApplicationRejectionReason= JobApplicationRejectionReason::withTrashed()->find($id);
 
         return $jobApplicationRejectionReason->restore() ?
-        response()->json(["message"=> "Jarr ripristinato correttamente" , "error" => false,]):
-        response()->json(["message"=> "Jarr ripristinato correttamente" , "error" => false,]);
+        response()->json(["message"=> "Jarr ripristinato correttamente" , "error" => false]):
+        response()->json(["message"=> "errore con ripristino Jarr" , "error" => true]);
 
     }
 }
