@@ -24,8 +24,6 @@ class HeadquarterRequest extends FormRequest
      */
     public function rules(): array
     {
-        dd(Headquarter::where());
-
         $rules = [
             'country' => 'required|string|max:255',
             'city' => 'required_without:foreign_city|prohibits:foreign_city|string|max:255',
@@ -52,8 +50,6 @@ class HeadquarterRequest extends FormRequest
                 ); 
             }
             //nella request di mattia trovo anche job_positions ma nella parte di codice che sto replicando questa tabella non l'ho inclusa.
-
-        
 
         return $rules;
     }
