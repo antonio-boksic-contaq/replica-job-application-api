@@ -24,6 +24,8 @@ class HeadquarterRequest extends FormRequest
      */
     public function rules(): array
     {
+
+        //dd(Headquarter::where('is_main',1)->where('id', '<>', $this->request->get('headquarter_id'))->toSql());
         $rules = [
             'country' => 'required|string|max:255',
             'city' => 'required_without:foreign_city|prohibits:foreign_city|string|max:255',
@@ -35,18 +37,18 @@ class HeadquarterRequest extends FormRequest
                 $rules['name'] = ['required' , 'string', 'max:255' ,Rule::unique('headquarters')->ignore($this->request->get('headquarter_id'))];
                 
                 $rules['is_main'] = Rule::prohibitedIf( fn () => 
-                $this->request->get('is_main') == 1
-                &&
-                Headquarter::where('is_main',1)->where('id', '<>', $this->request->get('headquarter_id'))->count() > 0
+                    $this->request->get('is_main') == 1
+                    &&
+                    Headquarter::where('is_main',1)->where('id', '<>', $this->request->get('headquarter_id'))->count() > 0
                 ); 
             } else {
                 $rules['name'] = 'required|string|max:255|unique:headquarters';
                 //nel db deve esserci solo un record che abbia is_main=1 
                 //quindi devo proibire l'inserimento di un record che abbia campo is_main=1 se già ne ho un'altro nel db.
                 $rules['is_main'] = Rule::prohibitedIf( fn () => 
-                $this->request->get('is_main') == 1
-                &&
-                Headquarter::where('is_main',1)->count() > 0
+                    $this->request->get('is_main') == 1
+                    &&
+                    Headquarter::where('is_main',1)->count() > 0
                 ); 
             }
             //nella request di mattia trovo anche job_positions ma nella parte di codice che sto replicando questa tabella non l'ho inclusa.
