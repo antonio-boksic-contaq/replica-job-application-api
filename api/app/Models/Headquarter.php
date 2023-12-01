@@ -12,5 +12,8 @@ class Headquarter extends Model
 
     protected $guarded = ["id"];
 
-    //aggiungere relazioni nel momento in cui si presetano
+    // RELAZIONI ONE TO MANY
+    public function jobApplications(){
+        return $this->hasMany(JobApplication::class);
+    }
 }

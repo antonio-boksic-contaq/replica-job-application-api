@@ -12,5 +12,12 @@ class JobPosition extends Model
 
     protected $guarded = ['id'];
 
-    // aggiungere relazioni nel momento in cui si presentano  
+    // RELAZIONI ONE TO MANY
+    public function jobApplications(){
+        return $this->hasMany(JobApplication::class);
+    }
+
+    //RELAZIONI MANY TO MANY
+
+    //questions
 }

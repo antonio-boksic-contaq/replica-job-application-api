@@ -12,5 +12,9 @@ class Question extends Model
 
     protected $guarded = ["id"];
 
-    //inserire relazioni nel momento in cui si presetano
+    //RELAZIONI MANY TO MANY
+
+    // job applications
+
+    // job positions
 }

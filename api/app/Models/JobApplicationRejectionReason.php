@@ -12,5 +12,8 @@ class JobApplicationRejectionReason extends Model
 
     protected $guarded = ["id"];
 
-    //inserire relazioni nel momento in cui si presentano
+    // RELAZIONI ONE TO MANY
+    public function jobApplications(){
+        return $this->hasMany(JobApplication::class);
+    }
 }

@@ -12,5 +12,8 @@ class JobApplicationResult extends Model
 
     protected $guarded = ["id"];
 
-    //aggiungere relazione nel momento in cui si presentano
+    // RELAZIONI ONE TO MANY
+    public function jobApplications(){
+        return $this->hasMany(JobApplication::class);
+    }
 }

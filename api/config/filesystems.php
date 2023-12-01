@@ -56,6 +56,12 @@ return [
             'throw' => false,
         ],
 
+        'curricula' => [
+            'driver' => 'local',
+            'root' => storage_path('app/docs/curricula'),
+            'throw' => false,
+        ],
+
     ],
 
     /*
@@ -71,6 +77,8 @@ return [
 
     'links' => [
         public_path('storage') => storage_path('app/public'),
+        public_path('curricula') => storage_path('app/docs/curricula'),
+        public_path('img') => storage_path('app/img'),
+        public_path('fonts') => storage_path('app/fonts'),
     ],
-
 ];

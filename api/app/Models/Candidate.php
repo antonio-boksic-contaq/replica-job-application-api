@@ -16,9 +16,9 @@ class Candidate extends Model
 
     protected $guarded = ['id'];
 
-    // quando mi creerò la tabella job_application gestirò anche la relazione.
-    // public function job_application() {
-    //     return $this->belongsTo(JobApplication::class);
-    // }
+    // RELAZIONI ONE TO MANY
+    public function jobApplications(){
+        return $this->hasMany(JobApplication::class);
+    }
 
 }
