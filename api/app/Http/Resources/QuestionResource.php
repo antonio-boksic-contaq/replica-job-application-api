@@ -19,6 +19,7 @@ class QuestionResource extends JsonResource
         return [
             "id"=> $this->id,
             "description"=> $this->description,
+            'job_positions' => JobPositionResource::collection($this->whenLoaded('jobPositions')),
         ];
     }
 }

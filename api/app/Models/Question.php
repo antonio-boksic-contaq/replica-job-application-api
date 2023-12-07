@@ -15,6 +15,10 @@ class Question extends Model
     //RELAZIONI MANY TO MANY
 
     // job applications
+    // ?
 
     // job positions
+    public function jobPositions(){
+        return $this->belongsToMany(JobPosition::class);
+    }
 }

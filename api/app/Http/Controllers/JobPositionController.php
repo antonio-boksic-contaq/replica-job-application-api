@@ -12,11 +12,19 @@ class JobPositionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $jobs = JobPosition::all();
+        $query = JobPosition::orderBy('description');
 
-        return response()->json(JobPositionResource::collection($jobs));
+        //filtro
+        if($request->has('questions') && $request->get('questions') == 1) $query->with('questions');
+
+        return response()->json(JobPositionResource::collection($query->get()));
+
+        //prima di vedere il codice di Mattia io l ho gestita semplicemente cosi la index
+        // non mi serviva nemmeno la request nel parametro della index.
+        //$jobs = JobPosition::all();
+        //return response()->json(JobPositionResource::collection($jobs));
     }
 
     /**
@@ -33,9 +41,12 @@ class JobPositionController extends Controller
     public function store(JobPositionRequest $request)
     {
         $jobPosition = JobPosition::create($request->all());
-
-        return response()->json(new JobPositionResource($jobPosition));
         
+        //qui mi devo far ripetere perchè devo gestire la situazione in cui questions non sia nella request
+        $questions = $request->has('questions') ? $request->get('questions') : [];
+        $jobPosition->questions()->sync($questions);
+
+        return response()->json(new JobPositionResource($jobPosition));     
     }
 
     /**
@@ -61,6 +72,9 @@ class JobPositionController extends Controller
     {
         $jobPosition->update($request->all());
 
+        $questions = $request->has('questions') ? $request->get('questions') : [];
+        $jobPosition->questions()->sync($questions);
+
         return response()->json(new JobPositionResource($jobPosition));
     }
 
@@ -77,11 +91,8 @@ class JobPositionController extends Controller
     public function restore($id) {
         $jobPosition = JobPosition::withTrashed()->find($id);
 
-
         return $jobPosition->restore() ?
         response()->json(["error" => false,"message"=> "job position ripristinata con successo"]) :
         response()->json(["error" => true, "message"=> "errore con ripristino job position"]) ;
-
-
     }
 }

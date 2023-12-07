@@ -41,5 +41,15 @@ class JobApplication extends Model
     //RELAZIONI MANY TO MANY
 
     //questions
-    
+    public function questions(){
+        return $this->belongsToMany(Question::class)
+        ->orderBy('description')
+        ->withPivot('id','custom_question', 'answer')
+        ->withTimestamps();
+    }
+
+    // relazione con le domande custom
+    public function customQuestions(){
+        return $this->hasMany(JobApplicationQuestion::class)->orderBy('custom_question')->whereNull('question_id');
+    }
 }

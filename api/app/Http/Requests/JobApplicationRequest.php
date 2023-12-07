@@ -32,6 +32,7 @@ class JobApplicationRequest extends FormRequest
             'file'=> 'required|file|mimetypes:application/pdf|max:1000',
         ];
 
+        //levo il required dal file se sto in modifica
         if ($this->request->has('job_application_id')) $rules['file'] =  'file|mimetypes:application/pdf|max:1000';
 
         return $rules;

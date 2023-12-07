@@ -6,10 +6,10 @@ use App\Http\Requests\JobApplicationRequest;
 use App\Http\Resources\JobApplicationResource;
 use App\Models\Candidate;
 use App\Models\JobApplication;
+use App\Models\JobPosition;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-
 
 class JobApplicationController extends Controller
 {
@@ -52,17 +52,14 @@ class JobApplicationController extends Controller
 
         if($jobApplication) {
             // $this->storeQuestion($jobApplication);
-            return response()->json(new JobApplicationResource(JobApplication::latest()->first()));
+            // questo non l'ho incluso negli appunti per ora
+            return response()->json(new JobApplicationResource($jobApplication));
         } else {
             $jobApplication->delete();
             Storage::delete($file_path);
             return response()->json(["error" => true]);
         } 
 
-        
-        //e poi inseriamo il record nel db
-        // $jobApplication= JobApplication::create($request->all());
-        // return response()->json(new JobApplicationResource($jobApplication));
     }
 
     /**
@@ -86,7 +83,6 @@ class JobApplicationController extends Controller
      */
     public function update(JobApplicationRequest $request, JobApplication $jobApplication)
     {
-
         // se c'è un nuovo file nella request, devo gestire l'upload e l'eliminazione del file precedente
         if($request->has("file")) {
             //salvo nome del vecchio file per poterlo eliminare a fine aggiornamento
@@ -122,7 +118,6 @@ class JobApplicationController extends Controller
             if ($request->hasFile('file')) Storage::disk('curricula')->delete($file_name);
             return response()->json(["error" => true]);
         }
-    
     }
 
     /**
@@ -145,5 +140,28 @@ class JobApplicationController extends Controller
         response()->json(["error"=> true, "message"=> "errore con ripristino della job application"]);
 
     }
+
+    //da qui gestiamo le many to many
+
+    public function storeCustomQuestion(Request $request, JobApplication $jobApplication)
+    {
+        $jobApplication->customQuestions()->create([
+            'custom_question' => $request->get('custom_question'),
+            'answer' => $request->get('answer')
+        ]);
+        
+        return response()->json(["error" => false, "message"=> "inserimento domanda custom andato a buon fine"]);
+    }
+
+    public function storeQuestion(JobApplication $jobApplication)
+    {
+        dd(JobPosition::find($jobApplication->job_position_id)->questions()->pluck("questions.id")->toArray());
+
+        $questions = JobPosition::find($jobApplication->job_position_id)->questions()->pluck('questions.id')->toArray();
+        $jobApplication->questions()->sync($questions);        
+        return response()->json(["error" => false]);
+    }
+
+    
 
 }

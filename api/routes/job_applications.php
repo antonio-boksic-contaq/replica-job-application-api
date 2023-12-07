@@ -23,5 +23,9 @@ Route::prefix('job_applications')->group(function () {
       Route::put('/', [JobApplicationController::class, 'update']);
       Route::delete('/', [JobApplicationController::class, 'delete']);
       Route::put('/restore', [JobApplicationController::class, 'restore']);
+      //da qui gestisco le many to many
+      Route::post('/custom-question', [JobApplicationController::class, 'storeCustomQuestion']);
+      Route::post('/questions', [JobApplicationController::class, 'storeQuestion']);
+
     });
 });

@@ -15,7 +15,6 @@ class JobApplicationResource extends JsonResource
     public function toArray(Request $request): array
     {
         //return parent::toArray($request);
-
         return [
             "id"=> $this->id,
             "file_path"=> $this->file_path,
@@ -32,7 +31,8 @@ class JobApplicationResource extends JsonResource
             "job_application_result" => new JobApplicationResultResource($this->jobApplicationResult),
             'job_application_rejection_reason' => new JobApplicationRejectionReasonResource($this->jobApplicationRejectionReason),
             //mi mancano da gestire tabelle pivot
+            'questions' => QuestionResource::collection($this->whenLoaded('questions')),
+            'custom_questions' => $this->whenLoaded('customQuestions'),
         ];
-
     }
 }

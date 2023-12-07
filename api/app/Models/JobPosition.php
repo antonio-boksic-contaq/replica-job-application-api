@@ -20,4 +20,7 @@ class JobPosition extends Model
     //RELAZIONI MANY TO MANY
 
     //questions
+    public function questions(){
+        return $this->belongsToMany(Question::class)->orderBy('description');
+    }
 }

@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class QuestionRequest extends FormRequest
 {
@@ -21,9 +23,17 @@ class QuestionRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'description' => 'required|string|max:255',
+        $rules = [
         ];
+
+        $rules["description"] =  $this->request->has('question_id') ? 
+        [
+            'required',
+            Rule::unique('questions')->ignore($this->request->get('question_id'))
+        ] :
+        'required|unique:questions';
+
+        return $rules;
     }
 
     public function messages()

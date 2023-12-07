@@ -21,6 +21,8 @@ class JobPositionResource extends JsonResource
             "description"=> $this->description,
 
             //aggiungere relazioni con withLoaded nel momento in cu si presentano.
+            'questions' => QuestionResource::collection($this->whenLoaded('questions')),
+            'job_applications' => JobApplicationResource::collection($this->whenLoaded('jobApplications')),
         ];
     }
 }
