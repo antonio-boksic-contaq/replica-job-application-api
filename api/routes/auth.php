@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 Route::prefix('/auth')->group(function () {
   Route::post('/login', [LoginController::class, 'login']);
-  // Route::post('/password-recovery', [LoginController::class, 'passwordRecovery']);
+  Route::post('/password-recovery', [LoginController::class, 'passwordRecovery']);
   /* testing auth */
   Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [LoginController::class, 'logout']);

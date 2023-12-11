@@ -34,7 +34,7 @@ class LoginController extends Controller
     return response()->json(['success' => true], 200);
   }
 
-  /*
+  
   public function passwordRecovery(Request $request){
     $request->validate(
       ['email' => 'required|exists:users,email,deleted_at,NULL'],
@@ -50,5 +50,5 @@ class LoginController extends Controller
 
     return response()->json(['success' => true], 200);
   }
-  */
+  
 }
