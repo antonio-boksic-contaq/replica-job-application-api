@@ -29,7 +29,7 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         $this->routes(function () {
-            Route::middleware('api')
+            Route::middleware(['api', 'auth:sanctum'])
                 ->prefix('api')
                 ->group(base_path('routes/api.php'))
                 ->group(base_path('routes/candidates.php'))
@@ -40,6 +40,10 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/questions.php'))
                 ->group(base_path('routes/headquarters.php'))
                 ->group(base_path('routes/job_applications.php'));
+                
+            Route::middleware(['api',])
+                ->prefix('api')
+                ->group(base_path('routes/auth.php'));
 
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));

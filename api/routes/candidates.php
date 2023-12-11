@@ -14,6 +14,9 @@ use App\Http\Controllers\CandidateController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+/*
+
+COMMENTIAMO UN ATTIMO E AGGIUNGIAMO IL MIDDLEWARE ROLE: SYSTEM ADMIN A QUESTE ROTTE PER VEDERE SE FUNZIONA IL GIRO
 
 Route::prefix('candidates')->group(function () {
   Route::get('/', [CandidateController::class, 'index']);
@@ -24,4 +27,19 @@ Route::prefix('candidates')->group(function () {
       Route::delete('/', [CandidateController::class, 'delete']);
       Route::put('/restore', [CandidateController::class, 'restore']);
     });
+});
+*/
+
+Route::prefix('candidates')->group(function () {
+  Route::middleware('role:System Admin')->group(function () {
+      Route::get('/', [CandidateController::class, 'index']);
+      Route::post('/', [CandidateController::class, 'store']);
+
+      Route::prefix('{candidate}')->group(function () {
+          Route::get('/', [CandidateController::class, 'show']);
+          Route::put('/', [CandidateController::class, 'update']);
+          Route::delete('/', [CandidateController::class, 'delete']);
+          Route::put('/restore', [CandidateController::class, 'restore']);
+      });
+  });
 });
